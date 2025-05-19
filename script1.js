@@ -2,10 +2,11 @@ let board;  // 17x17 board
 let cellSize = 40; // Size of each cell in pixels
 let game_mode = 0;
 
-const icon1_posx = 150;
-const icon1_posy = 800;
-const icon2_posx = 400;
-const icon2_posy = 800;
+let icon1_posx = 150;
+let icon1_posy = 800;
+let icon2_posx = 400;
+let icon2_posy = 800;
+let icon1_size = 100;
 
 let p1x = 0;
 let p1y = 8;
@@ -43,16 +44,29 @@ for(let i=0; i<board.length; i++){
 cellSize = window.innerWidth * 0.1;
 
 
+
+document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+});
+
+
+
+
 function setup(){
-    createCanvas(550, 950);
+    createCanvas(windowWidth, windowHeight);
     setkouho();
 
+    icon1_posx = width / 6;
+    icon2_posx = width / 6 * 3;
+    icon1_posy = height - (height - cellSize * 9)  / 2;
+    icon2_posy = height - (height - cellSize * 9)  / 2;
+    icon1_size = (height - cellSize * 9) * 0.2
 }
 
 
 function draw(){
 
-    background(235);
+    background(255);
 
     //ボードの描画
     for(let i=0; i<board.length; i++){
@@ -162,8 +176,8 @@ function draw(){
     //壁設置アイコン
     stroke(255, 150, 0);
     noFill();
-    circle(icon1_posx, icon1_posy, 200);
-    circle(icon2_posx, icon2_posy, 200);
+    circle(icon1_posx, icon1_posy, icon1_size*2);
+    circle(icon2_posx, icon2_posy, icon1_size*2);
     
     fill(0);
     noStroke();
@@ -184,9 +198,9 @@ function pressevent(){
         }
         pressx1 = mouseX;
         pressy1 = mouseY;
-    }else if(dist(mouseX, mouseY, icon1_posx, icon1_posy) < 100){
+    }else if(dist(mouseX, mouseY, icon1_posx, icon1_posy) < icon1_size){
         game_mode = 1;  //縦壁設置モードにする
-    }else if(dist(mouseX, mouseY, icon2_posx, icon2_posy) < 100){
+    }else if(dist(mouseX, mouseY, icon2_posx, icon2_posy) < icon1_size){
         game_mode = 2;  //横壁設置モードにする
     }
 }
